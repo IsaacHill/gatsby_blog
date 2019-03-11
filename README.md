@@ -4,7 +4,7 @@ A typography-heavy & light-themed Gatsby Starter which uses the Headless CMS [Pr
 
 [Demo Website](https://prismic.lekoarts.de)
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/LekoArts/gatsby-starter-prismic)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6b1cc61d-64da-4fe1-9c91-bf8ab9b0efc2/deploy-status)](https://app.netlify.com/sites/traveller-blog/deploys)
 
 [![CircleCI](https://circleci.com/gh/LekoArts/gatsby-starter-prismic.svg?style=svg)](https://circleci.com/gh/LekoArts/gatsby-starter-prismic) [![Netlify Status](https://api.netlify.com/api/v1/badges/f06e32cf-ef46-4544-b37d-0de548c0ea1b/deploy-status)](https://app.netlify.com/sites/gatsby-starter-prismic/deploys)
 
