@@ -2,20 +2,66 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { graphql } from 'gatsby'
-import { Layout, Listing, Wrapper, Title } from '../components'
+import { Layout, Listing, Wrapper, Title, Divider } from '../components'
 import website from '../../config/website'
+import BackgroundImage from 'gatsby-background-image'
+
+
+const test = (wow,wee) => {
+  return (<div></div>)
+}
+
+
+const styleForBg = {'z-index': '-1'}
+
+const HeroWithBackground = (data) => {
+    
+       // Set ImageData.
+       console.log('my data',data)
+
+       const imageData = data.blossum_main.childImageSharp.fluid;
+       return (
+          <BackgroundImage Tag="section"
+                           fluid={imageData}
+                           backgroundColor={`#040e18`}
+                           style={styleForBg}
+          >
+          <Hero>
+            {data.children}
+          </Hero>
+          </BackgroundImage>
+       )
+}
+  
+
+
+// const StyledBackgroundSection = styled(HeroWithBackground)`
+//   width: 100%;
+//   background-repeat: repeat-y;
+// `
+
 
 const Hero = styled.header`
-  background-color: ${props => props.theme.colors.greyLight};
   display: flex;
   align-items: center;
 `
 
 const HeroInner = styled(Wrapper)`
-  padding-top: 13rem;
-  padding-bottom: 13rem;
+  padding: 0px 4rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-top: 12rem;
+  margin-bottom: 12rem;
+  background:rgba(144,12,63,0.5);
+  transform: rotate(5deg);
+
+  .revert {
+    transform: rotate(-5deg);
+  }
+
   h1 {
     margin-bottom: 2rem;
+    color: ${props => props.theme.colors.white};
   }
   @media (max-width: ${props => props.theme.breakpoints.l}) {
     padding-top: 10rem;
@@ -34,6 +80,7 @@ const HeroInner = styled(Wrapper)`
 const HeroText = styled.div`
   font-size: 1.7rem;
   line-height: 1.4;
+  color: ${props => props.theme.colors.white};
   margin-bottom: 2rem;
   @media (max-width: ${props => props.theme.breakpoints.m}) {
     font-size: 1.4rem;
@@ -47,6 +94,7 @@ const Social = styled.ul`
   list-style-type: none;
   display: flex;
   flex-wrap: wrap;
+  color: ${props => props.theme.colors.white};
   margin-left: 0;
   font-family: 'Source Sans Pro', -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial',
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
@@ -60,7 +108,7 @@ const Social = styled.ul`
     }
     a {
       font-style: normal;
-      color: ${props => props.theme.colors.greyDark};
+      color: ${props => props.theme.colors.white};
       font-size: 1.333rem;
       font-weight: 600;
       &:hover,
@@ -75,56 +123,36 @@ const Social = styled.ul`
   }
 `
 
-const ProjectListing = styled.ul`
-  list-style-type: none;
-  margin-left: 0;
-  margin-top: 4rem;
-  li {
-    margin-bottom: 1.45rem;
-    a {
-      font-size: 2.369rem;
-      font-style: normal;
-      color: ${props => props.theme.colors.black};
-      @media (max-width: ${props => props.theme.breakpoints.s}) {
-        font-size: 1.777rem;
-      }
-    }
-  }
-`
-
 const IndexWrapper = Wrapper.withComponent('main')
 
 class Index extends Component {
   render() {
     const {
-      data: { homepage, social, posts, projects },
+      data: { homepage, social, posts, blossum_main },
     } = this.props
+
+    console.log(this.props)
     return (
       <Layout>
-        <Hero>
+        <HeroWithBackground blossum_main={blossum_main}>
           <HeroInner>
+            <div class="revert">
             <h1>{homepage.data.title.text}</h1>
             <HeroText dangerouslySetInnerHTML={{ __html: homepage.data.content.html }} />
-            <Social>
-              {social.edges.map((s, index) => (
-                <li data-name={`social-entry-${index}`} key={s.node.primary.label.text}>
-                  <a href={s.node.primary.link.url}>{s.node.primary.label.text}</a>
-                </li>
-              ))}
-            </Social>
+              <Social>
+                {social.edges.map((s, index) => (
+                  <li data-name={`social-entry-${index}`} key={s.node.primary.label.text}>
+                    <a href={s.node.primary.link.url}>{s.node.primary.label.text}</a>
+                  </li>
+                ))}
+              </Social>
+            </div>
           </HeroInner>
-        </Hero>
+        </HeroWithBackground>
+        <Divider/>
         <IndexWrapper id={website.skipNavId} style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
           <Title style={{ marginTop: '4rem' }}>Recent posts</Title>
           <Listing posts={posts.edges} />
-          <Title style={{ marginTop: '8rem' }}>Recent projects</Title>
-          <ProjectListing>
-            {projects.edges.map(project => (
-              <li key={project.node.primary.label.text}>
-                <a href={project.node.primary.link.url}>{project.node.primary.label.text}</a>
-              </li>
-            ))}
-          </ProjectListing>
         </IndexWrapper>
       </Layout>
     )
@@ -141,6 +169,13 @@ Index.propTypes = {
 
 export const pageQuery = graphql`
   query IndexQuery {
+    blossum_main: file(relativePath: { eq: "main_blossums.jpg" }) {
+      childImageSharp {
+        fluid(quality: 100, maxWidth: 4160) {
+          ...GatsbyImageSharpFluid_withWebp
+        }
+      }
+    }
     homepage: prismicHomepage {
       data {
         title {
@@ -182,20 +217,6 @@ export const pageQuery = graphql`
                   }
                 }
               }
-            }
-          }
-        }
-      }
-    }
-    projects: allPrismicProjectsBodyLinkItem {
-      edges {
-        node {
-          primary {
-            label {
-              text
-            }
-            link {
-              url
             }
           }
         }

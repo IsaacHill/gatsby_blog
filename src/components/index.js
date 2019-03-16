@@ -6,5 +6,6 @@ import SliceZone from './SliceZone'
 import Title from './Title'
 import Layout from './Layout'
 import Wrapper from './Wrapper'
+import {Divider} from './Divider'
 
-export { Footer, Layout, Listing, SEO, Wrapper, SliceZone, Title, Header }
+export { Footer, Layout, Listing, SEO, Wrapper, SliceZone, Title, Header, Divider }

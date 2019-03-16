@@ -44,6 +44,12 @@ const globalStyle = css`
       text-decoration: underline;
     }
   }
+
+  .divider {
+    height:10vh;
+    display:block;
+    background-color: ${theme.colors.primary}
+  }
   @media (max-width: ${theme.breakpoints.m}) {
     html {
       font-size: 16px !important;
@@ -69,6 +75,9 @@ const globalStyle = css`
       font-size: 0.563rem !important;
     }
   }
+
+
+
 `
 
 const PureLayout = ({ children, data, customSEO }) => (

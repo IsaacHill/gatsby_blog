@@ -105,6 +105,7 @@ const reset = css`
   [hidden] {
     display: none !important;
   }
+  
 `
 
 export default reset

@@ -7,7 +7,7 @@ import Categories from '../components/Listing/Categories'
 import website from '../../config/website'
 
 const Hero = styled.header`
-  background-color: ${props => props.theme.colors.greyLight};
+  background-color: ${props => props.theme.colors.primary};
   padding-top: 1rem;
   padding-bottom: 4rem;
 `
