@@ -12,7 +12,7 @@ const test = (wow,wee) => {
 }
 
 
-const styleForBg = {'z-index': '-1'}
+const styleForBg = {'Zindex': '-1'}
 
 const HeroWithBackground = (data) => {
     
@@ -171,6 +171,7 @@ export const pageQuery = graphql`
   query IndexQuery {
     blossum_main: file(relativePath: { eq: "main_blossums.jpg" }) {
       childImageSharp {
+        
         fluid(quality: 100, maxWidth: 4160) {
           ...GatsbyImageSharpFluid_withWebp
         }
@@ -205,6 +206,16 @@ export const pageQuery = graphql`
         node {
           uid
           data {
+            post_colour
+            hero_image {
+              localFile {
+                childImageSharp {
+                  fluid( duotone: { highlight: "#900C3F", shadow: "#192550"}maxWidth: 1200, quality: 90) {
+                    ...GatsbyImageSharpFluid_withWebp
+                  }
+                }
+              }
+            }
             title {
               text
             }
