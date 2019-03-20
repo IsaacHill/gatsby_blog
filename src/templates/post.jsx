@@ -5,11 +5,13 @@ import styled from '@emotion/styled'
 import { Layout, Listing, Wrapper, SliceZone, Title, SEO, Header } from '../components'
 import Categories from '../components/Listing/Categories'
 import website from '../../config/website'
+import Img from 'gatsby-image'
 
 const Hero = styled.header`
-  background-color: ${props => props.theme.colors.primary};
+  background-color: ${props => props.post_colour ? props.theme.colors.primary : props.theme.colors.primary};
   padding-top: 1rem;
   padding-bottom: 4rem;
+  ${props => props.image ? ' margin-bottom:15rem;' : null}
 `
 
 const Headline = styled.p`
@@ -23,6 +25,13 @@ const Headline = styled.p`
   }
 `
 
+const ImageHeroWrap = styled.div`
+position: relative;
+margin: 0 auto;
+max-width: ${props => props.theme.maxWidth};
+top: 20rem;
+`
+
 const PostWrapper = Wrapper.withComponent('main')
 
 const Post = ({ data: { prismicPost, posts }, location }) => {
@@ -31,6 +40,8 @@ const Post = ({ data: { prismicPost, posts }, location }) => {
   if (data.categories[0].category) {
     categories = data.categories.map(c => c.category.document[0].data.name)
   }
+  console.log('data',data);
+  console.log('is it a thing',data.hero_image.localFile != null)
   return (
     <Layout customSEO>
       <SEO
@@ -40,14 +51,15 @@ const Post = ({ data: { prismicPost, posts }, location }) => {
         node={prismicPost}
         article
       />
-      <Hero>
-        <Wrapper>
+      <Hero image={data.hero_image.localFile != null} post_colour={data.post_colour}>
+        <Wrapper image={data.hero_image.localFile != null}>
           <Header />
           <Headline>
             {data.date} — {categories && <Categories categories={categories} />}
           </Headline>
           <h1>{data.title.text}</h1>
         </Wrapper>
+        {data.hero_image.localFile ?  <ImageHeroWrap><Img fluid={data.hero_image.localFile.childImageSharp.fluid} /></ImageHeroWrap> : null  }
       </Hero>
       <PostWrapper id={website.skipNavId}>
         <SliceZone allSlices={data.body} />
@@ -77,6 +89,16 @@ export const pageQuery = graphql`
       first_publication_date
       last_publication_date
       data {
+        post_colour
+        hero_image {
+          localFile {
+            childImageSharp {
+              fluid(maxWidth: 1200, quality: 90) {
+                ...GatsbyImageSharpFluid_withWebp
+              }
+            }
+          }
+        }
         title {
           text
         }
