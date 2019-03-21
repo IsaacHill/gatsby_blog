@@ -8,7 +8,7 @@ import website from '../../config/website'
 import Img from 'gatsby-image'
 
 const Hero = styled.header`
-  background-color: ${props => props.post_colour ? props.theme.colors.primary : props.theme.colors.primary};
+  background-color: ${props => props.post_colour ? props.post_colour : props.theme.colors.primary};
   padding-top: 1rem;
   padding-bottom: 4rem;
   ${props => props.image ? ' margin-bottom:15rem;' : null}
@@ -17,12 +17,16 @@ const Hero = styled.header`
 const Headline = styled.p`
   font-family: 'Source Sans Pro', -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial',
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  color: ${props => props.theme.colors.grey};
+  color: ${props => props.theme.colors.white};
   font-size: 1.25rem;
   a {
     font-style: normal;
     font-weight: normal;
   }
+`
+
+const ColouredHeader = styled.h1`
+color: ${props => props.theme.colors.white};
 `
 
 const ImageHeroWrap = styled.div`
@@ -57,7 +61,7 @@ const Post = ({ data: { prismicPost, posts }, location }) => {
           <Headline>
             {data.date} — {categories && <Categories categories={categories} />}
           </Headline>
-          <h1>{data.title.text}</h1>
+          <ColouredHeader>{data.title.text}</ColouredHeader>
         </Wrapper>
         {data.hero_image.localFile ?  <ImageHeroWrap><Img fluid={data.hero_image.localFile.childImageSharp.fluid} /></ImageHeroWrap> : null  }
       </Hero>

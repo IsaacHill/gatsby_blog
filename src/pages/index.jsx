@@ -210,7 +210,7 @@ export const pageQuery = graphql`
             hero_image {
               localFile {
                 childImageSharp {
-                  fluid( duotone: { highlight: "#900C3F", shadow: "#192550"}maxWidth: 1200, quality: 90) {
+                  fluid( maxWidth: 1200, quality: 90) {
                     ...GatsbyImageSharpFluid_withWebp
                   }
                 }
